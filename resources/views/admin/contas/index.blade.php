@@ -31,7 +31,7 @@
 
           <div class="row">
 
-            @foreach($contas as $conta)
+            @forelse($contas as $conta)
 
             @php
 
@@ -72,9 +72,25 @@
                   $gasto = number_format(($resultado/$limite) * 100, 2);
                 }
 
-
             @endphp
 
+            <div class="col-md-4">
+                <div class="card-box">
+                    <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on right"></i>
+                    <a href="{{ route('contas.show', $conta->uuid) }}" class="mx-auto text-dark" style="display: block;">
+                    <h6 class="m-t-0 text-dark"><strong>{{ $conta->tipo->nome }}</strong> {{ $conta->banco ? ' / '.$conta->banco->nome : '' }}</h6></a>
+                    <h3 class="text-success text-center m-b-30 m-t-30">R$ <span>{{ $restanteFormatado }}</span></h3>
+                    <p class="mb-0 text-muted">Limite: R$ {{ $limiteFormatado }}
+                      <!--<span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i>10.25%</span>-->
+                      <span class="pull-right">
+                        <a href="{{ route('contas.edit', $conta->uuid) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </a>
+                        <a class="btn btn-sm btn-danger btnRemoveItem" data-route="{{route('contas.destroy',$conta->id)}}"><i class="fa fa-remove"></i> </a>
+                      </span>
+                    </p>
+                </div>
+            </div>
+
+            <!--
             <div class="col-md-4">
                 <div class="card-box pb-0">
 
@@ -92,9 +108,17 @@
                 </div>
 
             </div>
+            -->
 
+            @empty
 
-            @endforeach
+            <div class="col-sm-12">
+                <div class="card-box text-center bg-twitter">
+                    <h3 class="m-b-20 mt-3"><span>Nenhuma Conta Encontrada.</span></h3>
+                </div>
+            </div>
+
+            @endforelse
 
           </div>
 

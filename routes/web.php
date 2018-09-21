@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function() {
       Route::resource('contatos', 'ContatoController');
       Route::resource('movimentos', 'MovimentosController');
       Route::resource('categorias', 'CategoriasController');
+      Route::resource('grupos', 'GruposController');
 
       Route::resource('condominio', 'CondominioController');
 
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function() {
       Route::post('/movimentos/{id}/pagar', 'MovimentosController@pagar')->name('movimento_pagar');
 
       Route::get('/info', 'FinanceiroController@info')->name('informacoes_financeiras');
+      Route::get('/grafico', 'FinanceiroController@grafico')->name('grafico');
 
     });
 

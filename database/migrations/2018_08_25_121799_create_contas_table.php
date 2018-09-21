@@ -63,7 +63,7 @@ class CreateContasTable extends Migration
         Schema::create('conta_movimentos', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('descricao');
+            $table->string('descricao')->nullable();
 
             $table->integer('contato_id')->nullable();
 

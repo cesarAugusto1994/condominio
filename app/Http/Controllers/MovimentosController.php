@@ -39,7 +39,9 @@ class MovimentosController extends Controller
     {
         $data=$request->request->all();
 
-        $data['valor']=floatval($data['valor']);
+        $valor = floatval(str_replace(['.',','],['','.'],$request->get('valor')));
+        $valor = number_format($valor,2,'.','');
+        $data['valor']=$valor;
 
         if($request->has('data')) {
           $data['data_pagamento']=\DateTime::createFromFormat('d/m/Y',$data['data']);
@@ -107,7 +109,9 @@ class MovimentosController extends Controller
     {
         $data=$request->request->all();
 
-        $data['valor']=floatval($data['valor']);
+        $valor = floatval(str_replace(['.',','],['','.'],$request->get('valor')));
+        $valor = number_format($valor,2,'.','');
+        $data['valor']=$valor;
 
         if($request->has('data')) {
           $data['data_pagamento']=\DateTime::createFromFormat('d/m/Y',$data['data']);
@@ -143,6 +147,14 @@ class MovimentosController extends Controller
     public function destroy($id)
     {
         $movimento = Movimento::findOrFail($id);
+
+        foreach ($movimento->documentos as $key => $documento) {
+            if(\Storage::exists($documento->path)) {
+                \Storage::delete($documento->path);
+            }
+            $documento->delete();
+        }
+
         $movimento->delete();
 
         return response()->json([

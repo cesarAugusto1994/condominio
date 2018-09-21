@@ -103,8 +103,22 @@ class ContaController extends Controller
     {
         $conta = Conta::uuid($id);
 
-        $movimentosDespesas = Movimento::where('conta_id', $id)->where('movimento_tipo_id', 2)->get();
-        $movimentosReceitas = Movimento::where('conta_id', $id)->where('movimento_tipo_id', 1)->get();
+        $user = \Auth::user();
+        $condominio = $user->pessoa->condominio->id;
+
+        $movimentosDespesas = Movimento::where('conta_id', $conta->id)
+        ->where('movimento_tipo_id', 2)
+        ->where('condominio_id',$condominio)
+        ->orderBy('data_pagamento')
+        ->get();
+
+        $movimentosReceitas = Movimento::where('conta_id', $conta->id)
+        ->where('movimento_tipo_id', 1)
+        ->where('condominio_id',$condominio)
+        ->orderBy('data_pagamento')
+        ->get();
+
+        #dd($movimentosReceitas);
 
         $contatos=Contato::all();
 

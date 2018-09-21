@@ -218,4 +218,53 @@ class FinanceiroController extends Controller
         ]);
 
     }
+
+    public function grafico()
+    {
+        $resultado=[];
+
+        setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+
+        foreach (range(0,5) as $key => $item) {
+
+            $start = new \DateTime('first day of this month', new \DateTimeZone( 'America/Sao_Paulo'));
+            $end = new \DateTime('last day of this month', new \DateTimeZone( 'America/Sao_Paulo'));
+
+            $start->modify('-'.$item.' month');
+            $end->modify('-'.$item.' month');
+
+            $user = \Auth::user();
+            $condominio = $user->pessoa->condominio->id;
+
+            $movimentosDespesas = Movimento::where('movimento_tipo_id', 2)
+            ->where('data_pagamento','>=',$start)
+            ->where('data_pagamento','<=',$end)
+            ->where('condominio_id',$condominio)
+            ->orderBy('data_pagamento')
+            ->get();
+
+            $movimentosReceitas = Movimento::where('movimento_tipo_id', 1)
+            ->where('data_pagamento','>=',$start)
+            ->where('data_pagamento','<=',$end)
+            ->where('condominio_id',$condominio)
+            ->orderBy('data_pagamento')
+            ->get();
+
+            $recebimento = $movimentosReceitas->sum('valor');
+            $recebimento = number_format($recebimento, 2,'.','');
+
+            $despesas = $movimentosDespesas->sum('valor');
+            $despesas = number_format($despesas, 2,'.','');
+
+            $resultado[] = [
+              'month' => $start->format('M') . ' ' . $start->format('Y'),
+              'receitas' => $recebimento,
+              'despesas' => $despesas
+            ];
+
+        }
+
+        return json_encode(array_reverse($resultado));
+    }
 }

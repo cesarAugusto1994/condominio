@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contato;
 use Illuminate\Http\Request;
+use App\Models\Categoria\Grupo;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Okipa\LaravelBootstrapTableList\TableList;
 
-class ContatoController extends Controller
+class GruposController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,19 +17,19 @@ class ContatoController extends Controller
     public function index()
     {
         $table = app(TableList::class)
-            ->setModel(Contato::class)
+            ->setModel(Grupo::class)
             ->setRoutes([
-              'index'      => ['alias' => 'contatos.index', 'parameters' => []],
-              'edit'       => ['alias' => 'contatos.edit', 'parameters' => []],
-              'destroy'    => ['alias' => 'contatos.destroy', 'parameters' => []],
+              'index'      => ['alias' => 'grupos.index', 'parameters' => []],
+              'edit'       => ['alias' => 'grupos.edit', 'parameters' => []],
+              'destroy'    => ['alias' => 'grupos.destroy', 'parameters' => []],
             ])
             ->addQueryInstructions(function ($query) {
 
                 $user = \Auth::user();
                 $condominio = $user->pessoa->condominio;
 
-                $query->select('contatos.*')
-                    ->where('contatos.condominio_id', $condominio->id);
+                $query->select('grupo_categorias.*')
+                    ->where('grupo_categorias.condominio_id', $condominio->id);
             });
         // we add some columns to the table list
         $table->addColumn('nome')
@@ -37,17 +37,9 @@ class ContatoController extends Controller
             ->isSortable()
             ->isSearchable()
             ->useForDestroyConfirmation();
-        $table->addColumn('tipo_pessoa')
-            ->isSortable()
-            ->isSearchable()
-            ->setTitle('Tipo');
-        $table->addColumn('categoria')
-            ->isSortable()
-            ->isSearchable()
-            ->setTitle('Categoria');
         ;
 
-        return view('admin.contatos.index', compact('table'));
+        return view('admin.grupos.index', compact('table'));
     }
 
     /**
@@ -57,12 +49,12 @@ class ContatoController extends Controller
      */
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class, [
+        $form = $formBuilder->create(\App\Forms\GrupoForm::class, [
             'method' => 'POST',
-            'url' => route('contatos.store')
+            'url' => route('grupos.store')
         ]);
 
-        return view('admin.contatos.create', compact('form'));
+        return view('admin.grupos.create', compact('form'));
     }
 
     /**
@@ -71,31 +63,35 @@ class ContatoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FormBuilder $formBuilder, Request $request)
     {
-        $data = $request->request->all();
-
         $user = $request->user();
 
-        $condominio = $user->pessoa->condominio;
+        $form = $formBuilder->create(\App\Forms\GrupoForm::class);
 
-        $data['ativo'] = (boolean)$request->has('ativo');
-        $data['condominio_id'] = $condominio->id;
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
 
-        $contato = Contato::create($data);
+        $data = $form->getFieldValues();
 
-        flash('Contato adicionado com sucesso!')->success()->important();
+        $data['condominio_id'] = $user->pessoa->condominio->id;
+        $data['ativo'] = (boolean)$request->get('ativo');
 
-        return redirect()->route('contatos.index');
+        $grupo = Grupo::create($data);
+
+        flash('Grupo adicionado com sucesso!')->success()->important();
+
+        return redirect()->route('grupos.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Contato  $contato
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Contato $contato)
+    public function show($id)
     {
         //
     }
@@ -103,40 +99,40 @@ class ContatoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Contato  $contato
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(FormBuilder $formBuilder, $id)
     {
-        $contato = Contato::findOrFail($id);
+        $grupo = Grupo::findOrFail($id);
 
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class, [
+        $form = $formBuilder->create(\App\Forms\GrupoForm::class, [
             'method' => 'POST',
-            'model' => $contato,
-            'url' => route('contatos.update', $id),
+            'model' => $grupo,
+            'url' => route('grupos.update', $id),
         ]);
 
         $form->add('_method', 'hidden', ['value' => 'PUT']);
 
-        return view('admin.contatos.edit', compact('form'));
+        return view('admin.grupos.edit', compact('form'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Contato  $contato
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(FormBuilder $formBuilder, Request $request, $id)
     {
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class);
+        $form = $formBuilder->create(\App\Forms\GrupoForm::class);
 
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        $contato = Contato::findOrFail($id);
+        $grupo = Grupo::findOrFail($id);
 
         $data = $form->getFieldValues();
 
@@ -144,26 +140,26 @@ class ContatoController extends Controller
           $data['ativo'] = false;
         }
 
-        $contato->update($data);
+        $grupo->update($data);
 
-        flash('Contato atualizado com sucesso.')->success()->important();
+        flash('Grupo atualizado com sucesso.')->success()->important();
 
-        return redirect()->route('contatos.index');
+        return redirect()->route('grupos.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Contato  $contato
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $contato = Contato::findOrFail($id);
-        $contato->delete();
+        $grupo = Grupo::findOrFail($id);
+        $grupo->delete();
 
-        flash('Contato removido com sucesso.')->success()->important();
+        flash('Grupo removido com sucesso.')->success()->important();
 
-        return redirect()->route('contatos.index');
+        return redirect()->route('grupos.index');
     }
 }

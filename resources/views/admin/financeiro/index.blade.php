@@ -63,28 +63,28 @@
 
               <div class="col-lg-3 col-sm-6">
                   <div class="widget-inline-box text-center">
-                      <h3><i class="text-custom mdi mdi-airplay"></i> <b id="recebimento"></b></h3>
+                      <h3><i class="text-custom mdi mdi-coin"></i> <b id="recebimento"></b></h3>
                       <p class="text-muted">RECEBIMENTOS</p>
                   </div>
               </div>
 
               <div class="col-lg-3 col-sm-6">
                   <div class="widget-inline-box text-center">
-                      <h3><i class="text-info mdi mdi-black-mesa"></i> <b id="despesas"></b></h3>
+                      <h3><i class="text-info mdi mdi-receipt"></i> <b id="despesas"></b></h3>
                       <p class="text-muted">DESPESAS</p>
                   </div>
               </div>
 
               <div class="col-lg-3 col-sm-6">
                   <div class="widget-inline-box text-center">
-                      <h3><i class="text-primary mdi mdi-access-point-network"></i> <b id="previsto"></b></h3>
+                      <h3><i class="text-primary mdi mdi-elevation-rise"></i> <b id="previsto"></b></h3>
                       <p class="text-muted">PREVISTO</p>
                   </div>
               </div>
 
               <div class="col-lg-3 col-sm-6">
                   <div class="widget-inline-box text-center b-0">
-                      <h3><i class="text-danger mdi mdi-cellphone-link"></i> <b id="total"></b></h3>
+                      <h3><i class="text-danger mdi mdi-currency-usd"></i> <b id="total"></b></h3>
                       <p class="text-muted">SALDO TOTAL</p>
                   </div>
               </div>
@@ -180,46 +180,46 @@
                     <div class="col-md-12">
 
                       <div class="table-responsive">
-                      <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
-                        <thead>
-                        <tr>
-                          <th>Data</th>
-                          <th>Descrição</th>
-                          <th>Valor</th>
-                          <th>Conta</th>
-                          <th style="width:200px">Contato</th>
-                          <th style="width:200px">Documentos</th>
-                          <th>Pago</th>
-                          <th style="width:150px">Opções</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                        <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
+                          <thead>
+                          <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Conta</th>
+                            <th style="width:200px">Contato</th>
+                            <th style="width:200px">Documentos</th>
+                            <th>Pago</th>
+                            <th style="width:150px">Opções</th>
+                          </tr>
+                          </thead>
+                          <tbody>
 
-                          @foreach($movimentosReceitas as $movimento)
-                            <tr>
-                              <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
-                              <td>{{ $movimento->descricao }}</td>
-                              <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
-                              <td>{{ $movimento->conta->tipo->nome }}</td>
-                              <td>{{ $movimento->contato->nome }}</td>
-                              <td>
-                                @foreach($movimento->documentos as $doc)
-                                  <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
-                                @endforeach
-                              </td>
-                              <td>
-                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
-                              </td>
-                              <td>
-                                <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                                <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
-                              </td>
-                            </tr>
-                          @endforeach
+                            @foreach($movimentosReceitas as $movimento)
+                              <tr>
+                                <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
+                                <td>{{ $movimento->descricao }}</td>
+                                <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
+                                <td>{{ $movimento->conta->tipo->nome }}</td>
+                                <td>{{ $movimento->contato->nome ?? '' }}</td>
+                                <td>
+                                  @foreach($movimento->documentos as $doc)
+                                    <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
+                                  @endforeach
+                                </td>
+                                <td>
+                                  <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
+                                </td>
+                                <td>
+                                  <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
+                                  <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
+                                </td>
+                              </tr>
+                            @endforeach
 
-                        </tbody>
-                      </table>
-                    </div>
+                          </tbody>
+                        </table>
+                      </div>
 
                     </div>
 
@@ -253,9 +253,9 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Conta:</label>
-                  <select class="form-control Select2 select2"  style="width: 100%" name="conta_id">
+                  <select class="form-control select2"  style="width: 100%" name="conta_id">
                     @foreach($contas as $conta)
-                      <option value="{{$conta->id}}">{{ $conta->tipo->nome }} - {{ $conta->banco ? $conta->banco->nome : '' }}</option>
+                      <option value="{{$conta->id}}">{{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -266,7 +266,7 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Recebido de:</label>
-                  <select class="form-control Select2 select2"  style="width: 100%" name="contato_id">
+                  <select class="form-control Select2 select2" required style="width: 100%" name="contato_id">
                     @foreach($contatos as $contato)
                       <option value="{{$contato->id}}">{{ $contato->nome }}</option>
                     @endforeach
@@ -286,7 +286,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Categoria:</label>
 
@@ -299,6 +299,18 @@
 
                 </div>
               </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="descricao" class="control-label">Pago:</label>
+                  <select class="form-control Select2 select2" style="width: 100%" name="pago">
+                      <option value="0">Não</option>
+                      <option value="1">Sim</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Pagamento:</label>
@@ -313,17 +325,6 @@
 
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="descricao" class="control-label">Pago:</label>
-                  <select class="form-control Select2 select2" style="width: 100%" name="pago">
-                      <option value="0">Não</option>
-                      <option value="1">Sim</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Competência:</label>
@@ -393,7 +394,7 @@
                     <label for="descricao" class="control-label">Conta:</label>
                     <select class="form-control Select2 select2"  style="width: 100%" name="conta_id">
                       @foreach($contas as $conta)
-                        <option value="{{$conta->id}}">{{ $conta->tipo->nome }} - {{ $conta->banco ? $conta->banco->nome : '' }}</option>
+                        <option value="{{$conta->id}}">{{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }}</option>
                       @endforeach
                     </select>
                   </div>
@@ -404,7 +405,7 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <label for="descricao" class="control-label">Recebido de:</label>
-                    <select class="form-control Select2 select2"  style="width: 100%" name="contato_id">
+                    <select class="form-control Select2 select2"  style="width: 100%" required name="contato_id">
                       @foreach($contatos as $contato)
                         <option value="{{$contato->id}}">{{ $contato->nome }}</option>
                       @endforeach
@@ -424,7 +425,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="descricao" class="control-label">Categoria:</label>
 
@@ -437,6 +438,18 @@
 
                   </div>
                 </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="descricao" class="control-label">Pago:</label>
+                    <select class="form-control Select2 select2" style="width: 100%" name="pago">
+                        <option value="0">Não</option>
+                        <option value="1">Sim</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="descricao" class="control-label">Pagamento:</label>
@@ -451,17 +464,6 @@
 
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="descricao" class="control-label">Pago:</label>
-                    <select class="form-control Select2 select2" style="width: 100%" name="pago">
-                        <option value="0">Não</option>
-                        <option value="1">Sim</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="descricao" class="control-label">Competência:</label>

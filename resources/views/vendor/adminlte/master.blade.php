@@ -18,6 +18,8 @@
     <link href="{{ asset('dashboard/css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('dashboard/css/style.css') }}" rel="stylesheet" type="text/css" />
 
+    <link href="{{ asset('dashboard/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
 
 
@@ -82,6 +84,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.23/dist/sweetalert2.all.min.js"></script>
 
   <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+
+  <script src="{{ asset('dashboard/plugins/select2/js/select2.min.js') }}"></script>
 
   <script src="{{ asset('dashboard/plugins/datatables/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('dashboard/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>

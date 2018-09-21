@@ -39,10 +39,20 @@
 
       $gasto = 0.00;
 
-      if($limite) {
-        $resultado = $limite - $restante;
+      if(!$restante) {
+        //$restante = 1;
+      }
+
+      if(!$limite) {
+        $limite = 1;
+      }
+
+      $resultado = $limite - $restante;
+
+      if($restante || $limite) {
         $gasto = number_format(($resultado/$limite) * 100, 2);
       }
+
 
   @endphp
 
@@ -52,7 +62,7 @@
 
               <div class="h5 m-b-0"><strong>{{ $conta->tipo->nome }}</strong> - {{ $conta->banco ? $conta->banco->nome : '' }}</div>
           </a>
-          <div class="bg-twitter pull-in-card p-20 widget-box-two mb-0 m-t-30 list-inline text-center row">
+          <div class="bg-custom pull-in-card p-20 widget-box-two mb-0 m-t-30 list-inline text-center row">
               <div class="col-4">
                   <h5 class="text-white m-0 font-600">{{ $limiteFormatado }}</h5>
                   <p class="text-white mb-0">Limite</p>
@@ -88,48 +98,41 @@
           <div class="tab-content">
               <div class="tab-pane" id="home-b2">
 
-                <!--
-                <button class="btn btn-icon btn-danger btn-lg btnOpenModaDespesas"> <i class="fa fa-plus"></i></button>
+                <button class="btn btn-icon btn-danger pull-right btnOpenModaDespesas"> <i class="fa fa-plus"></i> Nova</button>
 
-                <hr/>
-              -->
-              
                 <div class="row">
 
                   <div class="col-md-12">
 
                     <div class="table-responsive">
-                      <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
+                      <table class="table no-margin table-condensed table-hover table-bordered">
                         <thead>
                         <tr>
-                          <th>Data</th>
-                          <th>Descrição</th>
+                          <th>ID</th>
+                          <th>Tipo</th>
                           <th>Valor</th>
-                          <th style="width:200px">Contato</th>
-                          <th style="width:200px">Documentos</th>
-                          <th>pago</th>
-                          <th style="width:150px">Opções</th>
+                          <th>Status</th>
+                          <th>Opções</th>
                         </tr>
                         </thead>
                         <tbody>
 
                           @foreach($movimentosDespesas as $movimento)
                             <tr>
-                              <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
-                              <td>{{ $movimento->descricao }}</td>
+                              <td><a href="#">#{{ $movimento->id }}</a></td>
+                              <td>{{ $movimento->tipo->nome }}</td>
                               <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
-                              <td>{{ $movimento->contato->nome }}</td>
                               <td>
-                                @foreach($movimento->documentos as $doc)
-                                  <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
-                                @endforeach
+                                @if($movimento->status == 'Pendente')
+                                <span class="label label-default">{{ $movimento->status }}</span>
+                                @elseif($movimento->status == 'Pago')
+                                <span class="label label-success">{{ $movimento->status }}</span>
+                                @elseif($movimento->status == 'Cancelado')
+                                <span class="label label-danger">{{ $movimento->status }}</span>
+                                @endif
                               </td>
                               <td>
-                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
-                              </td>
-                              <td>
-                                <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                                <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
+                                <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
                               </td>
                             </tr>
                           @endforeach
@@ -145,55 +148,48 @@
               </div>
               <div class="tab-pane active" id="profile-b2">
 
-                <!--
-                <button class="btn btn-icon btn-success btn-lg btnOpenModaReceitas"> <i class="fa fa-plus"></i></button>
-
-                <hr/>
-              -->
+                <button class="btn btn-icon btn-success pull-right btnOpenModaReceitas"> <i class="fa fa-plus"></i> Nova</button>
 
                 <div class="row">
 
                     <div class="col-md-12">
 
                       <div class="table-responsive">
-                        <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
-                          <thead>
-                          <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                            <th style="width:200px">Contato</th>
-                            <th style="width:200px">Documentos</th>
-                            <th>Pago</th>
-                            <th style="width:150px">Opções</th>
-                          </tr>
-                          </thead>
-                          <tbody>
+                      <table class="table no-margin table-condensed table-hover table-bordered">
+                        <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Tipo</th>
+                          <th>Valor</th>
+                          <th>Status</th>
+                          <th>Opções</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                            @foreach($movimentosReceitas as $movimento)
-                              <tr>
-                                <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
-                                <td>{{ $movimento->descricao }}</td>
-                                <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
-                                <td>{{ $movimento->contato->nome ?? '' }}</td>
-                                <td>
-                                  @foreach($movimento->documentos as $doc)
-                                    <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
-                                  @endforeach
-                                </td>
-                                <td>
-                                  <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
-                                </td>
-                                <td>
-                                  <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                                  <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
-                                </td>
-                              </tr>
-                            @endforeach
+                          @foreach($movimentosReceitas as $movimento)
+                            <tr>
+                              <td><a href="#">#{{ $movimento->id }}</a></td>
+                              <td>{{ $movimento->tipo->nome }}</td>
+                              <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
+                              <td>
+                                @if($movimento->status == 'Pendente')
+                                <span class="label label-default">{{ $movimento->status }}</span>
+                                @elseif($movimento->status == 'Pago')
+                                <span class="label label-success">{{ $movimento->status }}</span>
+                                @elseif($movimento->status == 'Cancelado')
+                                <span class="label label-danger">{{ $movimento->status }}</span>
+                                @endif
+                              </td>
+                              <td>
+                                <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
+                              </td>
+                            </tr>
+                          @endforeach
 
-                          </tbody>
-                        </table>
-                      </div>
+                        </tbody>
+                      </table>
+                    </div>
 
                     </div>
 

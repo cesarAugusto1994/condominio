@@ -13,9 +13,13 @@ class CreateCategoriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_lancamentos', function (Blueprint $table) {
+        Schema::create('grupo_categorias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
+
+            $table->integer('condominio_id')->unsigned();
+            $table->foreign('condominio_id')->references('id')->on('condominios');
+
             $table->boolean('ativo')->default(true);
             $table->timestamps();
             $table->softDeletes();
@@ -24,8 +28,9 @@ class CreateCategoriasTable extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
-            //$table->integer('tipo_lancamento_id')->unsigned();
-            //$table->foreign('tipo_lancamento_id')->references('id')->on('tipo_lancamentos');
+
+            $table->integer('grupo_id')->unsigned();
+            $table->foreign('grupo_id')->references('id')->on('grupo_categorias');
 
             $table->integer('condominio_id')->unsigned();
             $table->foreign('condominio_id')->references('id')->on('condominios');
@@ -45,6 +50,6 @@ class CreateCategoriasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('categorias');
-        Schema::dropIfExists('tipo_lancamentos');
+        Schema::dropIfExists('categoria_tipos');
     }
 }

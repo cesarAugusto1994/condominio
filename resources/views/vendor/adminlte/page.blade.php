@@ -26,13 +26,15 @@
 
           <!-- LOGO -->
           <div class="topbar-left">
-              <a href="index.html" class="logo">
+              <a href="{{ route('home') }}" class="logo">
+                <!--
                   <span>
                       <img src="{{ asset('dashboard/images/navalha-colorido.png') }}" alt="">
                   </span>
                   <i>
                       <img src="{{ asset('dashboard/images/n-colorido.png') }}" alt="">
                   </i>
+                -->
               </a>
           </div>
 
@@ -170,7 +172,7 @@
                   </li>
                   <li class="hide-phone app-search">
                       <form role="search" class="">
-                          <input type="text" placeholder="Search..." class="form-control">
+                          <input type="text" placeholder="Pesquisar..." class="form-control">
                           <a href=""><i class="fa fa-search"></i></a>
                       </form>
                   </li>
@@ -227,12 +229,12 @@
                   </li>
 
                   <li>
-                      <a href="{{ route('categorias.index') }}">
-                          <i class="mdi mdi-apps"></i><span> Categorias </span>
-                      </a>
+                      <a href="javascript: void(0);"><i class="mdi mdi-apps"></i> <span> Categorias </span> <span class="menu-arrow"></span></a>
+                      <ul class="nav-second-level" aria-expanded="false">
+                          <li><a href="{{ route('grupos.index') }}">Grupos</a></li>
+                          <li><a href="{{ route('categorias.index') }}">Categorias</a></li>
+                      </ul>
                   </li>
-
-
 
                   <!--
 
@@ -345,10 +347,10 @@
 
               <div class="footer">
                   <div class="pull-right hide-phone">
-                      Project Completed <strong class="text-custom">57%</strong>.
+                      Logado como <strong class="text-custom">{{ \Auth::user()->name }}</strong>.
                   </div>
                   <div>
-                      <strong>Simple Admin</strong> - Copyright © 2017 - 2018
+                      <strong>{{ config('app.name') }}</strong> - Copyright © {{ now()->format('Y') }}
                   </div>
               </div>
 
