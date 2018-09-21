@@ -1,0 +1,57 @@
+{
+    "name": "okipa/laravel-bootstrap-table-list",
+    "description": "Bootstrap table list generator for Laravel.",
+    "type": "library",
+    "keywords": [
+        "okipa",
+        "package",
+        "laravel",
+        "bootstrap",
+        "php",
+        "table",
+        "list",
+        "entities",
+        "generate",
+        "generator",
+        "generation",
+        "html"
+    ],
+    "homepage": "https://github.com/Okipa/laravel-bootstrap-table-list",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arthur LORENT",
+            "email": "arthur.lorent@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "illuminate/support": "~5.0",
+        "okipa/laravel-html-helper": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Okipa\\LaravelBootstrapTableList\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Okipa\\LaravelBootstrapTableList\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Okipa\\LaravelBootstrapTableList\\TableListServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
