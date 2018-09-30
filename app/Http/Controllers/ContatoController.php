@@ -16,38 +16,9 @@ class ContatoController extends Controller
      */
     public function index()
     {
-        $table = app(TableList::class)
-            ->setModel(Contato::class)
-            ->setRoutes([
-              'index'      => ['alias' => 'contatos.index', 'parameters' => []],
-              'edit'       => ['alias' => 'contatos.edit', 'parameters' => []],
-              'destroy'    => ['alias' => 'contatos.destroy', 'parameters' => []],
-            ])
-            ->addQueryInstructions(function ($query) {
+        $contatos = Contato::paginate();
 
-                $user = \Auth::user();
-                $condominio = $user->pessoa->condominio;
-
-                $query->select('contatos.*')
-                    ->where('contatos.condominio_id', $condominio->id);
-            });
-        // we add some columns to the table list
-        $table->addColumn('nome')
-            ->setTitle('Nome')
-            ->isSortable()
-            ->isSearchable()
-            ->useForDestroyConfirmation();
-        $table->addColumn('tipo_pessoa')
-            ->isSortable()
-            ->isSearchable()
-            ->setTitle('Tipo');
-        $table->addColumn('categoria')
-            ->isSortable()
-            ->isSearchable()
-            ->setTitle('Categoria');
-        ;
-
-        return view('admin.contatos.index', compact('table'));
+        return view('admin.contatos.index', compact('contatos'));
     }
 
     /**
