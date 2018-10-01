@@ -16,7 +16,10 @@ class ContatoController extends Controller
      */
     public function index()
     {
-        $contatos = Contato::paginate();
+        $user = \Auth::user();
+        $condominio = $user->pessoa->condominio;
+
+        $contatos = Contato::where('condominio_id', $condominio->id)->paginate();
 
         return view('admin.contatos.index', compact('contatos'));
     }
