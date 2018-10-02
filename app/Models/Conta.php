@@ -9,7 +9,7 @@ class Conta extends Model
 {
     use Uuids;
 
-    protected $fillable = ['conta_tipo_id', 'banco_id', 'numero', 'agencia', 'conta', 'condominio_id', 'limite'];
+    protected $fillable = ['conta_tipo_id', 'banco_id', 'numero', 'agencia', 'conta', 'condominio_id', 'limite', 'ativo'];
 
     public function tipo()
     {

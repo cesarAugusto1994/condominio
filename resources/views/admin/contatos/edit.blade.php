@@ -178,7 +178,7 @@
                     <div class="form-group">
                         <label class="col-form-label" for="descricao">Descricao</label>
                         <div class="input-group">
-                            <input type="text" id="descricao" name="descricao" class="form-control" value="{{ $contato->descricao }}">
+                            <textarea id="descricao" name="descricao" class="form-control">{{ $contato->descricao }}</textarea>
                         </div>
                     </div>
                 </div>

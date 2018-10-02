@@ -30,12 +30,7 @@ class ContaController extends Controller
      */
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(\App\Forms\ContaForm::class, [
-            'method' => 'POST',
-            'url' => route('contas.store')
-        ]);
-
-        return view('admin.contas.create', compact('form'));
+        return view('admin.contas.create');
     }
 
     /**
@@ -44,17 +39,11 @@ class ContaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FormBuilder $formBuilder, Request $request)
+    public function store(Request $request)
     {
         $user = $request->user();
 
-        $form = $formBuilder->create(\App\Forms\ContaForm::class);
-
-        if (!$form->isValid()) {
-            return redirect()->back()->withErrors($form->getErrors())->withInput();
-        }
-
-        $data = $form->getFieldValues();
+        $data = $request->request->all();
 
         $data['condominio_id'] = $user->pessoa->condominio->id;
         $data['ativo'] = (boolean)$request->has('ativo');
@@ -118,8 +107,6 @@ class ContaController extends Controller
         ->orderBy('data_pagamento')
         ->get();
 
-        #dd($movimentosReceitas);
-
         $contatos=Contato::all();
 
         return view('admin.contas.show', compact('conta','movimentosDespesas','movimentosReceitas','contatos'));
@@ -131,19 +118,11 @@ class ContaController extends Controller
      * @param  \App\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function edit(FormBuilder $formBuilder, $id)
+    public function edit($id)
     {
         $conta = Conta::uuid($id);
 
-        $form = $formBuilder->create(\App\Forms\ContaForm::class, [
-            'method' => 'POST',
-            'model' => $conta,
-            'url' => route('contas.update', $id),
-        ]);
-
-        $form->add('_method', 'hidden', ['value' => 'PUT']);
-
-        return view('admin.contas.edit', compact('form'));
+        return view('admin.contas.edit', compact('conta'));
     }
 
     /**
@@ -153,32 +132,24 @@ class ContaController extends Controller
      * @param  \App\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function update(FormBuilder $formBuilder, Request $request, $id)
+    public function update(Request $request, $id)
     {
-      $form = $formBuilder->create(\App\Forms\ContaForm::class);
+        $conta = Conta::uuid($id);
 
-      if (!$form->isValid()) {
-          return redirect()->back()->withErrors($form->getErrors())->withInput();
-      }
+        $data = $request->request->all();
 
-      $conta = Conta::uuid($id);
+        $data['ativo'] = !empty($data['ativo']) ? (boolean)$data['ativo'] : false;
 
-      $data = $form->getFieldValues();
+        $limite = floatval(str_replace(['.',','],['','.'],$request->get('limite')));
+        $limite = number_format($limite,2,'.','');
 
-      if($data['ativo'] != true) {
-        $data['ativo'] = false;
-      }
+        $data['limite'] = $limite;
 
-      $limite = floatval(str_replace(['.',','],['','.'],$request->get('limite')));
-      $limite = number_format($limite,2,'.','');
+        $conta->update($data);
 
-      $data['limite'] = $limite;
+        flash('Conta atualizada com sucesso.')->success()->important();
 
-      $conta->update($data);
-
-      flash('Conta atualizada com sucesso.')->success()->important();
-
-      return redirect()->route('contas.index');
+        return redirect()->route('contas.index');
     }
 
     /**

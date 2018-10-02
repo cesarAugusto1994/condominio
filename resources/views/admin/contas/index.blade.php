@@ -35,32 +35,25 @@
 
             @php
 
-                $card = 'bg-aqua';
-                $icon = 'credit-card';
-
-                if($conta->tipo->id == 2) {
-
-                  $card = 'bg-green';
-                  $icon = 'bank';
-
-                } elseif($conta->tipo->id == 3) {
-
-                  $card = 'bg-red';
-                  $icon = 'key';
-
-                }
-
                 $restante = $conta->movimentos->sum('valor');
+
+                $movimentosDespesasPago = $conta->movimentos->filter(function($movimento) {
+                    return $movimento->pago == true && $movimento->movimento_tipo_id == 2;
+                });
+
+                $movimentosReceitasPago = $conta->movimentos->filter(function($movimento) {
+                    return $movimento->pago == true && $movimento->movimento_tipo_id == 1;
+                });
+
+                $total=$movimentosReceitasPago->sum('valor')-$movimentosDespesasPago->sum('valor');
+                $total = number_format($total, 2,',','.');
+
                 $limite = $conta->limite;
 
                 $restanteFormatado = number_format($restante, 2, ',', '.');
                 $limiteFormatado = number_format($limite, 2, ',', '.');
 
                 $gasto = 0.00;
-
-                if(!$restante) {
-                  //$restante = 1;
-                }
 
                 if(!$limite) {
                   $limite = 1;
@@ -79,7 +72,7 @@
                     <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on right"></i>
                     <a href="{{ route('contas.show', $conta->uuid) }}" class="mx-auto text-dark" style="display: block;">
                     <h6 class="m-t-0 text-dark"><strong>{{ $conta->tipo->nome }}</strong> {{ $conta->banco ? ' / '.$conta->banco->nome : '' }}</h6></a>
-                    <h3 class="text-success text-center m-b-30 m-t-30">R$ <span>{{ $restanteFormatado }}</span></h3>
+                    <h3 class="text-success text-center m-b-30 m-t-30">R$ <span>{{ $total }}</span></h3>
                     <p class="mb-0 text-muted">Limite: R$ {{ $limiteFormatado }}
                       <!--<span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i>10.25%</span>-->
                       <span class="pull-right">

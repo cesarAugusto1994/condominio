@@ -168,7 +168,7 @@
                     <div class="form-group">
                         <label class="col-form-label" for="aniversario">Aniversario</label>
                         <div class="input-group">
-                            <input type="text" id="aniversario" name="aniversario" class="form-control">
+                            <input type="text" id="aniversario" name="aniversario" class="form-control date">
                         </div>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
                     <div class="form-group">
                         <label class="col-form-label" for="descricao">Descricao</label>
                         <div class="input-group">
-                            <input type="text" id="descricao" name="descricao" class="form-control">
+                            <textarea id="descricao" name="descricao" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
