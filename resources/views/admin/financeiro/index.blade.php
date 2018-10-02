@@ -496,7 +496,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="arquivo" class="control-label">Anexar documento:</label>
-                    <input type="file" class="form-control filestyle" data-size="md" data-buttontext="Selecione um comprovante" data-buttonname="btn-success" id="arquivo" name="arquivo">
+                    <input type="file" class="form-control filestyle" data-size="md" data-buttontext="Selecione um comprovante" data-buttonname="btn-default" id="arquivo2" name="arquivo">
                   </div>
                 </div>
               </div>

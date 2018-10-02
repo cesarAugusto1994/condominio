@@ -41,7 +41,7 @@
                       </tr>
                     @empty
                       <tr>
-                        <td colspan="11" class="text-center">Nenhum valor cadastrardo até o momento!</td>
+                        <td colspan="11" class="text-center">Nenhum contato cadastrardo até o momento!</td>
                       </tr>
                     @endforelse
 

@@ -34,8 +34,8 @@ class CreateContasTable extends Migration
 
             $table->integer('banco_id')->nullable();
             $table->bigInteger('numero')->nullable();
-            $table->integer('agencia')->nullable();
-            $table->integer('conta')->nullable();
+            $table->string('agencia')->nullable();
+            $table->string('conta')->nullable();
 
             $table->float('limite', 12,2)->nullable();
 
