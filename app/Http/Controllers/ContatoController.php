@@ -31,11 +31,6 @@ class ContatoController extends Controller
      */
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class, [
-            'method' => 'POST',
-            'url' => route('contatos.store')
-        ]);
-
         return view('admin.contatos.create', compact('form'));
     }
 
@@ -83,16 +78,7 @@ class ContatoController extends Controller
     public function edit(FormBuilder $formBuilder, $id)
     {
         $contato = Contato::findOrFail($id);
-
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class, [
-            'method' => 'POST',
-            'model' => $contato,
-            'url' => route('contatos.update', $id),
-        ]);
-
-        $form->add('_method', 'hidden', ['value' => 'PUT']);
-
-        return view('admin.contatos.edit', compact('form'));
+        return view('admin.contatos.edit', compact('contato'));
     }
 
     /**
@@ -102,17 +88,15 @@ class ContatoController extends Controller
      * @param  \App\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function update(FormBuilder $formBuilder, Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $form = $formBuilder->create(\App\Forms\ContatoForm::class);
-
-        if (!$form->isValid()) {
-            return redirect()->back()->withErrors($form->getErrors())->withInput();
-        }
-
         $contato = Contato::findOrFail($id);
 
-        $data = $form->getFieldValues();
+        $data = $request->request->all();
+
+        if(!empty($data['aniversario'])) {
+          $data['aniversario'] = \DateTime::createFromFormat('d/m/Y', $data['aniversario']);
+        }
 
         if($data['ativo'] != true) {
           $data['ativo'] = false;

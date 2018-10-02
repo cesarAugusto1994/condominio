@@ -32,7 +32,7 @@
                       <tr>
                         <td>{{ $contato->nome }}</td>
                         <td>{{ $contato->tipo_pessoa }}</td>
-                        <td>{{ $contato->nome }}</td>
+                        <td>{{ $contato->categoria }}</td>
 
                         <td>
                           <a class="btn btn-primary btn-sm" href="{{ route('contatos.edit', $contato->id) }}"><i class="fa fa-edit"></i></a>

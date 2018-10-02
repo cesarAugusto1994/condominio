@@ -15,6 +15,8 @@
 
 Auth::routes();
 
+Route::get('/avatar', 'UsersController@avatar')->name('avatar');
+
 Route::middleware('auth')->group(function() {
 
   Route::middleware('lock')->group(function() {
@@ -40,8 +42,6 @@ Route::middleware('auth')->group(function() {
       Route::get('/grafico', 'FinanceiroController@grafico')->name('grafico');
 
     });
-
-    Route::get('/avatar', 'UsersController@avatar')->name('avatar');
 
   });
 
