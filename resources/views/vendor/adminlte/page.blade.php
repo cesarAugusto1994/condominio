@@ -211,6 +211,12 @@
                   </li>
 
                   <li>
+                      <a href="{{ route('blocos.index') }}">
+                          <i class="mdi mdi-home-modern"></i><span> Blocos </span>
+                      </a>
+                  </li>
+
+                  <li>
                       <a href="{{ route('financeiro.index') }}">
                           <i class="mdi mdi-bank"></i><span> Gestão Financeira </span>
                       </a>

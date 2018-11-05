@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function() {
       Route::resource('movimentos', 'MovimentosController');
       Route::resource('categorias', 'CategoriasController');
       Route::resource('grupos', 'GruposController');
+      Route::resource('blocos', 'BlocosController');
 
       Route::resource('condominio', 'CondominioController');
 

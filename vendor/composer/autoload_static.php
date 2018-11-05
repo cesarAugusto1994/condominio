@@ -403,6 +403,7 @@ class ComposerStaticInit33c733ca468374e6b3fda822e6167a5f
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Banco' => __DIR__ . '/../..' . '/app/Models/Banco.php',
+        'App\\Models\\Bloco' => __DIR__ . '/../..' . '/app/Models/Bloco.php',
         'App\\Models\\Categoria' => __DIR__ . '/../..' . '/app/Models/Categoria.php',
         'App\\Models\\Categoria\\Grupo' => __DIR__ . '/../..' . '/app/Models/Categoria/Grupo.php',
         'App\\Models\\Condominio' => __DIR__ . '/../..' . '/app/Models/Condominio.php',

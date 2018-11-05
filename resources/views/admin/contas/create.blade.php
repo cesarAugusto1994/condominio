@@ -33,6 +33,15 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
+                        <label class="col-form-label" for="nome">Nome</label>
+                        <div class="input-group">
+                            <input type="text" id="nome" name="nome" class="form-control" value="{{ old('nome') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
                         <label class="col-form-label" for="conta_tipo_id">Tipo</label>
                         <div class="input-group">
 

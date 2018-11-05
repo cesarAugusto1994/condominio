@@ -147,7 +147,7 @@
                               <td>{{ $movimento->descricao }}</td>
                               <td>{{ $movimento->categoria->nome }}</td>
                               <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
-                              <td>{{ $movimento->conta->tipo->nome }}</td>
+                              <td>@if($conta->nome) {{ $conta->nome }}|<small>{{ $movimento->conta->tipo->nome }}</small> @else {{ $movimento->conta->tipo->nome }} @endif</td>
                               <td><a class="text-custom" href="{{route('contatos.edit',$movimento->contato->id)}}">{{ $movimento->contato->nome }}</a></td>
                               <td>
                                 @foreach($movimento->documentos as $doc)
@@ -206,7 +206,7 @@
                                 <td>{{ $movimento->descricao }}</td>
                                 <td>{{ $movimento->categoria->nome }}</td>
                                 <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
-                                <td>{{ $movimento->conta->tipo->nome }}</td>
+                                <td>@if($conta->nome) {{ $conta->nome }}|<small>{{ $movimento->conta->tipo->nome }}</small> @else {{ $movimento->conta->tipo->nome }} @endif</td>
                                 <td><a class="text-custom" href="{{route('contatos.edit',$movimento->contato->id)}}">{{ $movimento->contato->nome }}</a></td>
                                 <td>
                                   @foreach($movimento->documentos as $doc)
@@ -261,7 +261,7 @@
                   <label for="descricao" class="control-label">Conta:</label>
                   <select class="form-control select2"  style="width: 100%" name="conta_id">
                     @foreach($contas as $conta)
-                      <option value="{{$conta->id}}">{{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }}</option>
+                      <option value="{{$conta->id}}">@if($conta->nome) {{ $conta->nome }}|<small>{{ $movimento->conta->tipo->nome }}</small>|{{ $conta->banco ? $conta->banco->nome : '' }} @else {{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }} @endif </option>
                     @endforeach
                   </select>
                 </div>
@@ -411,7 +411,7 @@
                     <label for="descricao" class="control-label">Conta:</label>
                     <select class="form-control Select2 select2"  style="width: 100%" name="conta_id">
                       @foreach($contas as $conta)
-                        <option value="{{$conta->id}}">{{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }}</option>
+                        <option value="{{$conta->id}}">@if($conta->nome) {{ $conta->nome }}|<small>{{ $movimento->conta->tipo->nome }}</small>|{{ $conta->banco ? $conta->banco->nome : '' }} @else {{ $conta->tipo->nome }} {{ $conta->banco ? ' - ' . $conta->banco->nome : '' }} @endif </option>
                       @endforeach
                     </select>
                   </div>

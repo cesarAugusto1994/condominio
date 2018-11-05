@@ -40,6 +40,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\Banco' => $baseDir . '/app/Models/Banco.php',
+    'App\\Models\\Bloco' => $baseDir . '/app/Models/Bloco.php',
     'App\\Models\\Categoria' => $baseDir . '/app/Models/Categoria.php',
     'App\\Models\\Categoria\\Grupo' => $baseDir . '/app/Models/Categoria/Grupo.php',
     'App\\Models\\Condominio' => $baseDir . '/app/Models/Condominio.php',
