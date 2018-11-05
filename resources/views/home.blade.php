@@ -125,10 +125,11 @@
                         <th>Tipo</th>
                         <th>Data</th>
                         <th>Descrição</th>
+                        <th>Categoria</th>
                         <th>Valor</th>
                         <th>Conta</th>
                         <th style="width:200px">Contato</th>
-                        <th style="width:200px">Documentos</th>
+                        <th style="width:150px">Anexos</th>
                         <th>pago</th>
                         <th style="width:150px">Opções</th>
                       </tr>
@@ -153,9 +154,10 @@
                           <td>{{ $movimento->tipo->nome }}</td>
                           <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
                           <td>{{ $movimento->descricao }}</td>
+                          <td>{{ $movimento->categoria->nome }}</td>
                           <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
                           <td>{{ $movimento->conta->tipo->nome }}</td>
-                          <td>{{ $movimento->contato->nome }}</td>
+                          <td><a class="text-custom" href="{{route('contatos.edit',$movimento->contato->id)}}">{{ $movimento->contato->nome }}</a></td>
                           <td>
                             @foreach($movimento->documentos as $doc)
                               <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
