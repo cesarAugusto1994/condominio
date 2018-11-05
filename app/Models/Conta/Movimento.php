@@ -30,6 +30,11 @@ class Movimento extends Model
         return $this->belongsTo('App\Models\Contato', 'contato_id');
     }
 
+    public function categoria()
+    {
+        return $this->belongsTo('App\Models\Categoria', 'categoria_id');
+    }
+
     public function documentos()
     {
         return $this->hasMany('App\Models\Movimento\Documento', 'movimento_id');

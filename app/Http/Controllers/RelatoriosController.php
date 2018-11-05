@@ -23,6 +23,7 @@ class RelatoriosController extends Controller
         $conta = (int)$request->get('conta');
 
         $header = $resultadoFooter = $saldoDiario = $resultado = [];
+        $movimentoAnterior = $saldoMovimentoAnterior = 0;
 
         if($request->has('generate')) {
 
@@ -88,21 +89,31 @@ class RelatoriosController extends Controller
                     if(!empty($conta)) {
 
                       $valorReceitas = $categoria->movimentos->filter(function($movimento) use($dateB, $conta) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->conta_id == $conta && $movimento->movimento_tipo_id == 1;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->conta_id == $conta
+                          && $movimento->movimento_tipo_id == 1
+                          && $movimento->pago == true;
                       })->sum('valor');
 
                       $valorDespesas = $categoria->movimentos->filter(function($movimento) use($dateB, $conta) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->conta_id == $conta && $movimento->movimento_tipo_id == 2;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->conta_id == $conta
+                          && $movimento->movimento_tipo_id == 2
+                          && $movimento->pago == true;
                       })->sum('valor') * (-1);
 
                     } else {
 
                       $valorReceitas = $categoria->movimentos->filter(function($movimento) use($dateB) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->movimento_tipo_id == 1;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->movimento_tipo_id == 1
+                          && $movimento->pago == true;
                       })->sum('valor');
 
                       $valorDespesas = $categoria->movimentos->filter(function($movimento) use($dateB) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->movimento_tipo_id == 2;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->movimento_tipo_id == 2
+                          && $movimento->pago == true;
                       })->sum('valor') * (-1);
 
                     }
@@ -130,9 +141,10 @@ class RelatoriosController extends Controller
           }
 
           $total = 0;
-          $saldo = 0;
           $conta = (int)$request->get('conta');
           $date = $first;
+
+          $saldoMovimentoAnterior = $movimentoAnterior;
 
           foreach (range(0, $dias) as $dia) {
 
@@ -152,21 +164,31 @@ class RelatoriosController extends Controller
                     if(!empty($conta)) {
 
                       $valorReceitas = $categoria->movimentos->filter(function($movimento) use($dateB, $conta) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->conta_id == $conta && $movimento->movimento_tipo_id == 1;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->conta_id == $conta
+                          && $movimento->movimento_tipo_id == 1
+                          && $movimento->pago == true;
                       })->sum('valor');
 
                       $valorDespesas = $categoria->movimentos->filter(function($movimento) use($dateB, $conta) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->conta_id == $conta && $movimento->movimento_tipo_id == 2;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->conta_id == $conta
+                          && $movimento->movimento_tipo_id == 2
+                          && $movimento->pago == true;
                       })->sum('valor') * (-1);
 
                     } else {//exit;
 
                       $valorReceitas = $categoria->movimentos->filter(function($movimento) use($dateB) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->movimento_tipo_id == 1;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->movimento_tipo_id == 1
+                          && $movimento->pago == true;
                       })->sum('valor');
 
                       $valorDespesas = $categoria->movimentos->filter(function($movimento) use($dateB) {
-                          return $dateB == $movimento->data_pagamento->format('Ymd') && $movimento->movimento_tipo_id == 2;
+                          return $dateB == $movimento->data_pagamento->format('Ymd')
+                          && $movimento->movimento_tipo_id == 2
+                          && $movimento->pago == true;
                       })->sum('valor') * (-1);
 
                     }
@@ -175,13 +197,10 @@ class RelatoriosController extends Controller
 
                 }
 
-
-
             }
 
-            $total += $movimentoAnterior+$saldo;
-
-            $saldoDiario[$dateA] = number_format((float)$total,2,',','.');
+            $saldoMovimentoAnterior = $saldoMovimentoAnterior+$saldo;
+            $saldoDiario[$dateA] = number_format((float)$saldoMovimentoAnterior,2,',','.');
 
           }
 
@@ -193,9 +212,10 @@ class RelatoriosController extends Controller
             $footer[$key] = number_format((float)array_sum($item),2,',','.');
         }
 
-        #dd($saldoDiario);
+        $movimentoAnterior = number_format($movimentoAnterior,2,',','.');
+        $saldoAtual = number_format($saldoMovimentoAnterior,2,',','.');;
 
-        return view('admin.relatorios.index',compact('contas','resultado', 'header', 'footer', 'saldoDiario'));
+        return view('admin.relatorios.index',compact('contas','resultado', 'header', 'footer', 'saldoDiario','movimentoAnterior','saldoAtual'));
     }
 
     /**

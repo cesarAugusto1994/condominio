@@ -63,70 +63,77 @@
 </div>
 @if(!empty($resultado))
 <div class="row">
-  <div class="col-md-12">
+
+  <div class="col-md-6">
       <div class="card-box">
-          <div class="panel panel-default panel-fill">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Resultado</h3>
-              </div>
-              <div class="panel-body table-responsive">
+          <h6 class="m-t-0 text-dark">Saldo Mẽs Anterior</h6>
+          <h3 class="text-primary text-center m-b-30 m-t-30">R$ <span>{{ $movimentoAnterior }}</span></h3>
+      </div>
+  </div>
 
-                <table class="table table-bordered">
+  <div class="col-md-6">
+      <div class="card-box">
+          <h6 class="m-t-0 text-dark">Saldo Atual</h6>
+          <h3 class="text-custom text-center m-b-30 m-t-30">R$ <span>{{ $saldoAtual }}</span></h3>
+      </div>
+  </div>
 
-                    <thead>
+  <div class="col-md-12">
+      <div class="card-box table-responsive">
 
-                        <tr>
-                            <th><h3 class="text-primary">Fluxo de Caixa</h3></th>
-                            @foreach($header as $k => $i)
-                                <th>{{ $i }}</th>
-                            @endforeach
-                        </tr>
+          <table class="table table-condensed table-hover">
 
-                    <thead>
+              <thead>
 
-                    <tbody>
-
-                      @foreach($resultado as $key => $itens)
-
-                          <tr>
-                              <th colspan="{{ count(current($itens)) }}">{{ $key }}</th>
-                          </tr>
-
-                        @foreach($itens as $key2 => $item)
-
-                            <tr>
-                                <td><h6 class="text-custom">{{ $key2 }}</h6></td>
-                                @foreach($item as $i)
-                                    <td>@if($i != '0,00') <h6 class="text-success">{{ $i }}</h6> @else <p class="text-muted">{{ $i }}</p> @endif</td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-
+                  <tr>
+                      <th><h3 class="text-primary">Fluxo de Caixa</h3></th>
+                      @foreach($header as $k => $i)
+                          <th>{{ $i }}</th>
                       @endforeach
+                  </tr>
 
-                    <tbody>
+              <thead>
 
-                    <tfoot>
+              <tbody>
+
+                @foreach($resultado as $key => $itens)
+
+                    <tr>
+                        <th colspan="{{ count(current($itens))+1 }}">{{ $key }}</th>
+                    </tr>
+
+                  @foreach($itens as $key2 => $item)
+
                       <tr>
-                        <th><span class="text-custom"></span></th>
-                        @foreach($footer as $k => $i)
-                            <th>@if($i != '0,00') <h6 class="text-danger">{{ $i }}</h6>@else <p class="text-muted">{{ $i }}</p> @endif  </th>
-                        @endforeach
+                          <td><h6 class="text-custom">{{ $key2 }}</h6></td>
+                          @foreach($item as $i)
+                              <td>@if($i != '0,00') <h6 class="text-success">{{ $i }}</h6> @else <p class="text-muted">{{ $i }}</p> @endif</td>
+                          @endforeach
                       </tr>
+                  @endforeach
 
-                      <tr>
-                        <th><h6 class="text-primary">SALDO DIÁRIO</h6></th>
-                        @foreach($saldoDiario as $k => $i)
-                            <th>@if($i != '0,00') <h6 class="text-primary">{{ $i }}</h6>@else <p class="text-muted">{{ $i }}</p> @endif  </th>
-                        @endforeach
-                      </tr>
-                    </tfoot>
+                @endforeach
 
-                </table>
+              <tbody>
 
-              </div>
+              <tfoot>
+                <tr>
+                  <th><span class="text-custom"></span></th>
+                  @foreach($footer as $k => $i)
+                      <th>@if($i != '0,00') <h6 class="text-danger">{{ $i }}</h6>@else <p class="text-muted">{{ $i }}</p> @endif  </th>
+                  @endforeach
+                </tr>
 
-          </div>
+                <tr>
+                  <th><h6 class="text-primary">SALDO DIÁRIO</h6></th>
+                  @foreach($saldoDiario as $k => $i)
+                      <th>@if($i != '0,00') <h6 class="text-primary">{{ $i }}</h6>@else <p class="text-muted">{{ $i }}</p> @endif  </th>
+                  @endforeach
+                </tr>
+              </tfoot>
+
+          </table>
+
       </div>
   </div>
 </div>

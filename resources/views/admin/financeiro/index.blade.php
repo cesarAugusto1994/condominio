@@ -125,15 +125,16 @@
                   <div class="col-md-12">
 
                     <div class="table-responsive">
-                      <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
+                      <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
                           <th>Data</th>
                           <th>Descrição</th>
-                          <th>Valor</th>
+                          <th>Categoria</th>
+                          <th>(R$) Valor</th>
                           <th>Conta</th>
-                          <th style="width:200px">Contato</th>
-                          <th style="width:200px">Documentos</th>
+                          <th style="width:200px">Pago à</th>
+                          <th style="width:150px">Anexos</th>
                           <th>Pago</th>
                           <th style="width:150px">Opções</th>
                         </tr>
@@ -144,20 +145,21 @@
                             <tr>
                               <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
                               <td>{{ $movimento->descricao }}</td>
+                              <td>{{ $movimento->categoria->nome }}</td>
                               <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
                               <td>{{ $movimento->conta->tipo->nome }}</td>
-                              <td>{{ $movimento->contato->nome }}</td>
+                              <td><a class="text-custom" href="{{route('contatos.edit',$movimento->contato->id)}}">{{ $movimento->contato->nome }}</a></td>
                               <td>
                                 @foreach($movimento->documentos as $doc)
                                   <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
                                 @endforeach
                               </td>
                               <td>
-                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox2" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
+                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox2" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-size="small" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
                               </td>
                               <td>
-                                <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                                <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
+                                <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-sm btn-icon btn-info"><i class="fa fa-edit"></i> </a>
+                                <button class="btn btn-sm btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
                               </td>
                             </tr>
                           @endforeach
@@ -187,10 +189,11 @@
                           <tr>
                             <th>Data</th>
                             <th>Descrição</th>
-                            <th>Valor</th>
+                            <th>Categoria</th>
+                            <th>(R$) Valor</th>
                             <th>Conta</th>
-                            <th style="width:200px">Contato</th>
-                            <th style="width:200px">Documentos</th>
+                            <th style="width:200px">Recebido de</th>
+                            <th style="width:150px">Anexos</th>
                             <th>Pago</th>
                             <th style="width:150px">Opções</th>
                           </tr>
@@ -201,20 +204,21 @@
                               <tr>
                                 <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
                                 <td>{{ $movimento->descricao }}</td>
+                                <td>{{ $movimento->categoria->nome }}</td>
                                 <td>{{ number_format($movimento->valor, 2, ',', '.') }}</td>
                                 <td>{{ $movimento->conta->tipo->nome }}</td>
-                                <td>{{ $movimento->contato->nome ?? '' }}</td>
+                                <td><a class="text-custom" href="{{route('contatos.edit',$movimento->contato->id)}}">{{ $movimento->contato->nome }}</a></td>
                                 <td>
                                   @foreach($movimento->documentos as $doc)
                                     <a target="_blank" href="{{ route('images',['link'=>$doc->path]) }}">{{ $doc->nome }}</a><br/>
                                   @endforeach
                                 </td>
                                 <td>
-                                  <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
+                                  <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-size="small" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
                                 </td>
                                 <td>
-                                  <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                                  <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
+                                  <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-sm btn-icon btn-info"><i class="fa fa-edit"></i> </a>
+                                  <button class="btn btn-sm btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
                                 </td>
                               </tr>
                             @endforeach
@@ -267,7 +271,7 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="form-group">
-                  <label for="descricao" class="control-label">Recebido de:</label>
+                  <label for="descricao" class="control-label">Pago à:</label>
 
                   <div class="input-group">
                       <select class="form-control Select2 select2 contato-select" required name="contato_id">
@@ -412,19 +416,25 @@
                     </select>
                   </div>
                 </div>
-
               </div>
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="form-group">
-                    <label for="descricao" class="control-label">Recebido de:</label>
-                    <select class="form-control Select2 select2"  style="width: 100%" required name="contato_id">
-                      @foreach($contatos as $contato)
-                        <option value="{{$contato->id}}">{{ $contato->nome }}</option>
-                      @endforeach
-                    </select>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="descricao" class="control-label">Recebido de:</label>
+
+                      <div class="input-group">
+                          <select class="form-control Select2 select2 contato-select" required name="contato_id">
+                            @foreach($contatos as $contato)
+                              <option value="{{$contato->id}}">{{ $contato->nome }}</option>
+                            @endforeach
+                          </select>
+                          <span class="input-group-prepend">
+                              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contato-modal"><i class="fa fa-plus"></i></button>
+                          </span>
+                      </div>
+
+                    </div>
                   </div>
-                </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="descricao" class="control-label">Valor:</label>
