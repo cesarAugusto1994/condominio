@@ -11,8 +11,6 @@
 |
 */
 
-
-
 Auth::routes();
 
 Route::get('/avatar', 'UsersController@avatar')->name('avatar');
@@ -35,11 +33,15 @@ Route::middleware('auth')->group(function() {
 
       Route::resource('condominio', 'CondominioController');
 
+      Route::resource('relatorios', 'RelatoriosController');
+
       Route::get('/images/external', 'MovimentosController@images')->name('images');
       Route::post('/movimentos/{id}/pagar', 'MovimentosController@pagar')->name('movimento_pagar');
 
       Route::get('/info', 'FinanceiroController@info')->name('informacoes_financeiras');
       Route::get('/grafico', 'FinanceiroController@grafico')->name('grafico');
+
+      Route::post('/contato/store/ajax', 'ContatoController@storeAjax')->name('contato_store_ajax');
 
     });
 

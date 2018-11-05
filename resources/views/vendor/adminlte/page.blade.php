@@ -148,7 +148,7 @@
                           </a>
 
                           <!-- item-->
-                          <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item notify-item">
+                          <a href="javascript:void(0);" class="dropdown-item notify-item btnLogout">
                               <i class="ti-power-off"></i> <span>{{ trans('adminlte::adminlte.log_out') }}</span>
                           </a>
 
@@ -234,6 +234,12 @@
                           <li><a href="{{ route('grupos.index') }}">Grupos</a></li>
                           <li><a href="{{ route('categorias.index') }}">Categorias</a></li>
                       </ul>
+                  </li>
+
+                  <li>
+                      <a href="{{ route('relatorios.index') }}">
+                          <i class="fa fa-file"></i><span> Relatórios </span>
+                      </a>
                   </li>
 
                   <!--
@@ -362,7 +368,6 @@
 @stop
 
 @section('adminlte_js')
-
     @stack('js')
     @yield('js')
 @stop

@@ -12,6 +12,8 @@
 
 @section('content')
 
+
+
 <div class="row">
   <div class="col-md-12">
       <div class="card-box">
@@ -101,18 +103,18 @@
 
           <ul class="nav nav-tabs tabs-bordered nav-justified">
               <li class="nav-item">
-                  <a href="#home-b2" data-toggle="tab" aria-expanded="false" class="nav-link">
+                  <a href="#home-b2" data-toggle="tab" aria-expanded="false" class="nav-link active">
                       Despesas <span class="badge badge-danger">{{ $movimentosDespesas->count() }}</span>
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="#profile-b2" data-toggle="tab" aria-expanded="true" class="nav-link active">
+                  <a href="#profile-b2" data-toggle="tab" aria-expanded="true" class="nav-link ">
                       Receitas <span class="badge badge-success">{{ $movimentosReceitas->count() }}</span>
                   </a>
               </li>
           </ul>
           <div class="tab-content">
-              <div class="tab-pane" id="home-b2">
+              <div class="tab-pane active" id="home-b2">
 
                 <button class="btn btn-lg btn-icon btn-danger btnOpenModaDespesas"><i class="fa fa-plus"></i> </button>
 
@@ -132,7 +134,7 @@
                           <th>Conta</th>
                           <th style="width:200px">Contato</th>
                           <th style="width:200px">Documentos</th>
-                          <th>pago</th>
+                          <th>Pago</th>
                           <th style="width:150px">Opções</th>
                         </tr>
                         </thead>
@@ -151,7 +153,7 @@
                                 @endforeach
                               </td>
                               <td>
-                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
+                                <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox2" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
                               </td>
                               <td>
                                 <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
@@ -169,7 +171,7 @@
                 </div>
 
               </div>
-              <div class="tab-pane active" id="profile-b2">
+              <div class="tab-pane" id="profile-b2">
 
                 <button class="btn btn-icon btn-lg btn-success btnOpenModaReceitas"><i class="fa fa-plus"></i> </button>
 
@@ -266,11 +268,18 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Recebido de:</label>
-                  <select class="form-control Select2 select2" required style="width: 100%" name="contato_id">
-                    @foreach($contatos as $contato)
-                      <option value="{{$contato->id}}">{{ $contato->nome }}</option>
-                    @endforeach
-                  </select>
+
+                  <div class="input-group">
+                      <select class="form-control Select2 select2 contato-select" required name="contato_id">
+                        @foreach($contatos as $contato)
+                          <option value="{{$contato->id}}">{{ $contato->nome }}</option>
+                        @endforeach
+                      </select>
+                      <span class="input-group-prepend">
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contato-modal"><i class="fa fa-plus"></i></button>
+                      </span>
+                  </div>
+
                 </div>
               </div>
               <div class="col-md-4">
@@ -290,10 +299,14 @@
                 <div class="form-group">
                   <label for="descricao" class="control-label">Categoria:</label>
 
-                  <select class="form-control Select2 select2"  style="width: 100%" name="categoria_id">
+                  <select class="form-control Select2 select2"  style="width: 100%" name="categoria_id" required>
                     <option value="">Selecione</option>
-                    @foreach($categorias as $categoria)
-                      <option value="{{$categoria->id}}">{{ $categoria->nome }}</option>
+                    @foreach($grupos as $grupo)
+                        <optgroup label="{{ $grupo->nome }}">
+                        @foreach($grupo->categorias as $categoria)
+                          <option value="{{$categoria->id}}">{{ $categoria->nome }}</option>
+                        @endforeach
+                        <optgroup>
                     @endforeach
                   </select>
 
@@ -356,7 +369,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="descricao" class="control-label">Anexar documento:</label>
-                  <input type="file" class="form-control filestyle" data-size="md" data-buttontext="Selecione um comprovante" data-buttonname="btn-success" id="arquivo" name="arquivo">
+                  <input type="file" class="form-control filestyle" data-size="md" data-buttontext="Selecione um comprovante" data-buttonname="btn-default" id="arquivo" name="arquivo">
                 </div>
               </div>
             </div>
@@ -429,10 +442,14 @@
                   <div class="form-group">
                     <label for="descricao" class="control-label">Categoria:</label>
 
-                    <select class="form-control Select2 select2"  style="width: 100%" name="categoria_id">
+                    <select class="form-control Select2 select2"  style="width: 100%" name="categoria_id" required>
                       <option value="">Selecione</option>
-                      @foreach($categorias as $categoria)
-                        <option value="{{$categoria->id}}">{{ $categoria->nome }}</option>
+                      @foreach($grupos as $grupo)
+                          <optgroup label="{{ $grupo->nome }}">
+                          @foreach($grupo->categorias as $categoria)
+                            <option value="{{$categoria->id}}">{{ $categoria->nome }}</option>
+                          @endforeach
+                          <optgroup>
                       @endforeach
                     </select>
 
@@ -511,12 +528,279 @@
   </div>
 </div>
 
+<div id="contato-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Proprietário</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+
+            <form method="post" id="formContato" class="formSubmitAjax" data-parent-modal="#contato-modal" data-target-element=".contato-select" action="{{ route('contato_store_ajax') }}" role="form">
+            <div class="modal-body">
+
+                {{ csrf_field() }}
+
+                <div class="row">
+
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="col-form-label" for="nome">Nome</label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-user"></i></span>
+                              </div>
+                              <input type="text" id="nome" name="nome" class="form-control" required>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="col-form-label" for="tipo">Tipo</label>
+                          <div class="input-group">
+
+                              <select id="tipo_pessoa" name="tipo_pessoa" class="form-control">
+                                <option value="Pessoa Física">Pessoa Física</option>
+                                <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                              </select>
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="col-form-label" for="categoria">Categoria</label>
+                          <div class="input-group">
+
+                              <select id="categoria" name="categoria" class="form-control">
+                                <option value="Cliente">Cliente</option>
+                                <option value="Fornecedor">Fornecedor</option>
+                                <option value="Funcionário">Funcionário</option>
+                              </select>
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="cpf_cnpj">CPF / CNPJ</label>
+                          <div class="input-group">
+                              <input type="text" id="cpf_cnpj" name="cpf_cnpj" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="email">Email</label>
+                          <div class="input-group">
+                              <input type="text" id="email" name="email" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="telefone">Telefone</label>
+                          <div class="input-group">
+                              <input type="text" id="telefone" name="telefone" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="celular">Celular</label>
+                          <div class="input-group">
+                              <input type="text" id="celular" name="celular" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-5">
+                      <div class="form-group">
+                          <label class="col-form-label" for="endereco">Endereço</label>
+                          <div class="input-group">
+                              <input type="text" id="endereco" name="endereco" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-1">
+                      <div class="form-group">
+                          <label class="col-form-label" for="numero">Numero</label>
+                          <div class="input-group">
+                              <input type="text" id="numero" name="numero" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label class="col-form-label" for="complemento">Complemento</label>
+                          <div class="input-group">
+                              <input type="text" id="complemento" name="complemento" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="bairro">Bairro</label>
+                          <div class="input-group">
+                              <input type="text" id="bairro" name="bairro" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="cep">Cep</label>
+                          <div class="input-group">
+                              <input type="text" id="cep" name="cep" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="estado">Estado</label>
+                          <div class="input-group">
+                              <input type="text" id="estado" name="estado" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="cidade">Cidade</label>
+                          <div class="input-group">
+                              <input type="text" id="cidade" name="cidade" class="form-control">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label class="col-form-label" for="aniversario">Aniversario</label>
+                          <div class="input-group">
+                              <input type="text" id="aniversario" name="aniversario" class="form-control date">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-9">
+                      <div class="form-group">
+                          <label class="col-form-label" for="descricao">Descricao</label>
+                          <div class="input-group">
+                              <textarea id="descricao" name="descricao" class="form-control"></textarea>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="col-form-label" for="ativo">Ativo</label>
+                          <div class="input-group">
+                              <input type="checkbox" id="ativo" name="ativo" checked value="1">
+                          </div>
+                      </div>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success waves-effect waves-light">Salvar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="route-informcoes" value="{{ route('informacoes_financeiras', request()->getQueryString()) }}"/>
 
 @stop
 
-@section('adminlte_js')
+@section('js')
 
   <script src="{{ asset('dashboard/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}" type="text/javascript"></script>
+
+  <script>
+
+  $(".formSubmitAjax").submit(function(e) {
+
+    var self = $(this);
+    var url = self.attr('action');
+    var modal = self.data('parent-modal');
+    var element = self.data('target-element');
+
+    e.preventDefault();
+
+    $.ajax(
+      {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'POST',
+        url: url,
+        data: self.serialize(),
+        dataType: 'json',
+        success: function(data) {
+
+          $(modal).modal('hide');
+          var id = data.data.id;
+          var nome = data.data.nome;
+          self.find(element).append('<option selected value="'+id+'">'+nome+'</option>');
+
+          $(element).append('<option selected value="'+id+'">'+nome+'</option>');
+
+          const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
+
+          toast({
+            type: data.type,
+            title: data.message
+          });
+
+        }
+      });
+
+  });
+
+  $('.btnLogout').click(function() {
+
+      swal({
+        title: 'Finalizar Sessão?',
+        text: "Esta sessão será finalizada!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.value) {
+
+          document.getElementById('logout-form').submit();
+
+          swal({
+            title: 'Até logo!',
+            text: 'Sua sessão será finalizada.',
+            type: 'success',
+            showConfirmButton: false,
+          })
+        }
+      });
+
+    });
+
+  </script>
 
 @stop

@@ -58,6 +58,26 @@ class ContatoController extends Controller
         return redirect()->route('contatos.index');
     }
 
+    public function storeAjax(Request $request)
+    {
+        $data = $request->request->all();
+
+        $user = $request->user();
+        $condominio = $user->pessoa->condominio;
+
+        $data['user_id'] = $user->id;
+        $data['condominio_id'] = $condominio->id;
+
+        $contato = Contato::create($data);
+
+        return response()->json([
+          'code' => 200,
+          'type' => 'success',
+          'data' => $contato,
+          'message' => 'Ok!, o registro foi adicionado com sucesso.'
+        ]);
+    }
+
     /**
      * Display the specified resource.
      *

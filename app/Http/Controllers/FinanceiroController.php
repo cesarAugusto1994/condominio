@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Financeiro;
 use App\Models\{Conta,Contato,Categoria};
 use App\Models\Conta\Movimento;
+use App\Models\Categoria\Grupo;
 use Illuminate\Http\Request;
 
 class FinanceiroController extends Controller
@@ -79,9 +80,9 @@ class FinanceiroController extends Controller
 
         $contatos=Contato::where('condominio_id', $condominio->id)->get();
         $contas=Conta::where('condominio_id', $condominio->id)->get();
-        $categorias=Categoria::where('condominio_id', $condominio->id)->get();
+        $grupos=Grupo::all();
 
-        return view('admin.financeiro.index', compact('contas','movimentosDespesas','movimentosReceitas','contatos','recebimento','despesas','previsto','categorias','total'));
+        return view('admin.financeiro.index', compact('contas','movimentosDespesas','movimentosReceitas','contatos','recebimento','despesas','previsto','grupos','total'));
     }
 
     /**

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TiposMovimentoTableSeeder::class);
         $this->call(BancosTableSeeder::class);
         $this->call(DespesasTableSeeder::class);
-
+        $this->call(CategoriasTableSeeder::class);
+      
     }
 }

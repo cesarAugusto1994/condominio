@@ -17,8 +17,7 @@ class CreateCategoriasTable extends Migration
             $table->increments('id');
             $table->string('nome');
 
-            $table->integer('condominio_id')->unsigned();
-            $table->foreign('condominio_id')->references('id')->on('condominios');
+            $table->integer('condominio_id')->nullable();
 
             $table->boolean('ativo')->default(true);
             $table->timestamps();
@@ -32,8 +31,7 @@ class CreateCategoriasTable extends Migration
             $table->integer('grupo_id')->unsigned();
             $table->foreign('grupo_id')->references('id')->on('grupo_categorias');
 
-            $table->integer('condominio_id')->unsigned();
-            $table->foreign('condominio_id')->references('id')->on('condominios');
+            $table->integer('condominio_id')->nullable();
 
             $table->boolean('ativo')->default(true);
             $table->uuid('uuid');
