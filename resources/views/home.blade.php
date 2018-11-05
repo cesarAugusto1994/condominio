@@ -54,7 +54,6 @@
             <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Valor total de Receitas"></i>
             <h6 class="m-t-0 text-dark">Receitas</h6>
             <h3 class="text-primary text-center m-b-30 m-t-30">R$ <span id="recebimento"></span></h3>
-            <p class="text-muted mb-0">Anterior:  <span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i></span></p>
         </div>
     </div>
 
@@ -63,7 +62,6 @@
             <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Valor total de Despesas"></i>
             <h6 class="m-t-0 text-dark">Despesas</h6>
             <h3 class="text-danger text-center m-b-30 m-t-30">R$ <span id="despesas"></span></h3>
-            <p class="mb-0 text-muted">Anterior:  <span class="pull-right"><i class="fa fa-caret-down text-danger m-r-5"></i></span></p>
         </div>
     </div>
 
@@ -72,7 +70,6 @@
             <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Valor total"></i>
             <h6 class="m-t-0 text-dark">Total</h6>
             <h3 class="text-success text-center m-b-30 m-t-30">R$ <span id="total"></span></h3>
-            <p class="mb-0 text-muted">Anterior: <span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i></span></p>
         </div>
     </div>
 
