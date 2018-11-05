@@ -27,12 +27,15 @@
 
                   <tbody>
                     @forelse($grupos as $grupo)
+
                       <tr>
                         <td>{{ $grupo->nome }}</td>
 
                         <td>
+                          @if(!empty($grupo->condominio_id))
                           <a class="btn btn-primary btn-sm" href="{{ route('grupos.edit', $grupo->id) }}"><i class="fa fa-edit"></i></a>
                           <a class="btn btn-danger btn-sm btnRemoveItem" data-route="{{ route('grupos.destroy', $grupo->id) }}"><i class="fa fa-trash"></i></a>
+                          @endif
                         </td>
                       </tr>
                     @empty

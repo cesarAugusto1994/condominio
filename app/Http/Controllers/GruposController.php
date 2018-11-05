@@ -19,7 +19,7 @@ class GruposController extends Controller
         $user = \Auth::user();
         $condominio = $user->pessoa->condominio;
 
-        $grupos = Grupo::where('condominio_id', $condominio->id)->paginate();
+        $grupos = Grupo::where('condominio_id', $condominio->id)->orWhere('condominio_id', null)->paginate();
 
         return view('admin.grupos.index', compact('grupos'));
     }

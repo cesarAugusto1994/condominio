@@ -18,7 +18,7 @@ class CategoriasController extends Controller
         $user = \Auth::user();
         $condominio = $user->pessoa->condominio;
 
-        $categorias = Categoria::where('condominio_id', $condominio->id)->get();
+        $categorias = Categoria::where('condominio_id', $condominio->id)->orWhere('condominio_id', null)->get();
         return view('admin.categorias.index', compact('categorias'));
     }
 

@@ -21,52 +21,57 @@
 </div>
 
 <div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
 
-    <div class="col-md-12">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title"></h3>
-        </div>
-        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="box box-default">
+                    <div class="box-header with-border">
+                      <h3 class="box-title"></h3>
+                    </div>
+                    <div class="box-body">
 
-          <div class="row">
+                      <div class="row">
 
-            <div class="table-responsive">
-              <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
-                <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Ativo</th>
-                  <th style="width:150px">Opções</th>
-                </tr>
-                </thead>
-                <tbody>
+                        <div class="table-responsive">
+                          <table class="table table-hover mails m-0 table table-actions-bar">
+                            <thead>
+                            <tr>
+                              <th>Nome</th>
+                              <th style="width:150px">#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                  @foreach($categorias as $categoria)
+                              @foreach($categorias as $categoria)
 
-                    <tr>
-                      <td>{{ $categoria->nome }}</td>
-                      <td>{{ $categoria->ativo ? 'Ativo' : 'Inativo' }}</td>
-                      <td>
-                        <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                        <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('categorias.destroy',$categoria->id)}}"> <i class="fa fa-remove"></i> </button>
-                      </td>
-                    </tr>
+                                <tr>
+                                  <td>{{ $categoria->nome }}</td>
+                                  <td>
+                                    @if(!empty($categoria->condominio_id))
+                                    <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i> </a>
+                                    <button class="btn btn-icon btn-danger btn-sm btnRemoveItem" data-route="{{route('categorias.destroy',$categoria->id)}}"> <i class="fa fa-remove"></i> </button>
+                                    @endif
+                                  </td>
+                                </tr>
 
-                  @endforeach
+                              @endforeach
 
-                </tbody>
-              </table>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
             </div>
 
-          </div>
-
         </div>
-      </div>
     </div>
-
 </div>
-
 
 
 @stop
