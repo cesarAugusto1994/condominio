@@ -94,7 +94,7 @@
             </div>
             <div id="dashboard-bar-stacked" style="height: 300px;"></div>
         </div>
-    </div> <!-- end col -->
+    </div>
 
     <div class="col-lg-6">
         <div class="card-box">
@@ -111,8 +111,8 @@
             </div>
             <div id="dashboard-line-chart" style="height: 300px;"></div>
         </div>
-    </div> <!-- end col -->
-</div> <!-- end row -->
+    </div>
+</div>
 
 <div class="row">
     <div class="col-sm-12">
@@ -162,11 +162,11 @@
                             @endforeach
                           </td>
                           <td>
-                            <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
+                            <input class="pago_checkbox" data-route="{{route('movimento_pagar',$movimento->id)}}" id="checkbox3" data-size="small" data-movimento="{{$movimento->id}}" type="checkbox" data-plugin="switchery" data-switchery="true" data-color="#039cfd" value="{{$movimento->id}}" {{ $movimento->pago ? 'checked' : '' }}>
                           </td>
                           <td>
-                            <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-icon btn-info"><i class="fa fa-edit"></i> </a>
-                            <button class="btn btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
+                            <a href="{{ route('movimentos.edit', $movimento->id) }}" class="btn btn-sm btn-icon btn-info"><i class="fa fa-edit"></i> </a>
+                            <button class="btn btn-sm btn-icon btn-danger btnRemoveItem" data-route="{{route('movimentos.destroy',$movimento->id)}}"> <i class="fa fa-remove"></i> </button>
                           </td>
                         </tr>
                       @endforeach
