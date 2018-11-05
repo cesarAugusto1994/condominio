@@ -116,7 +116,7 @@
           <div class="tab-content">
               <div class="tab-pane active" id="home-b2">
 
-                <button class="btn btn-lg btn-icon btn-danger btnOpenModaDespesas"><i class="fa fa-plus"></i> </button>
+                <button class="btn btn-icon btn-danger btn-block btnOpenModaDespesas"><i class="fa fa-plus"></i> Adicionar</button>
 
                 <hr/>
 
@@ -175,7 +175,7 @@
               </div>
               <div class="tab-pane" id="profile-b2">
 
-                <button class="btn btn-icon btn-lg btn-success btnOpenModaReceitas"><i class="fa fa-plus"></i> </button>
+                <button class="btn btn-icon btn-success btn-block btnOpenModaReceitas"><i class="fa fa-plus"></i> Adicionar</button>
 
                 <hr/>
 
@@ -184,7 +184,7 @@
                     <div class="col-md-12">
 
                       <div class="table-responsive">
-                        <table class="table table-hover mails m-0 table table-actions-bar table-bordered">
+                        <table class="table table-hover mails m-0 table table-actions-bar">
                           <thead>
                           <tr>
                             <th>Data</th>

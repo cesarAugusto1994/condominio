@@ -148,7 +148,11 @@
 
                       @foreach($movimentos as $movimento)
                         <tr>
-                          <td>{{ $movimento->tipo->nome }}</td>
+                          @if($movimento->tipo->id == 1)
+                              <td><span class="badge badge-success">{{ $movimento->tipo->nome }}</span></td>
+                          @else
+                              <td><span class="badge badge-danger">{{ $movimento->tipo->nome }}</span></td>
+                          @endif
                           <td>{{ $movimento->data_pagamento->format('d/m/Y') }}</td>
                           <td>{{ $movimento->descricao }}</td>
                           <td>{{ $movimento->categoria->nome }}</td>

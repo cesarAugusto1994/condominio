@@ -82,17 +82,11 @@ class CondominioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FormBuilder $formBuilder, Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $form = $formBuilder->create(\App\Forms\CondominioForm::class);
-
-        if (!$form->isValid()) {
-            return redirect()->back()->withErrors($form->getErrors())->withInput();
-        }
-
         $condominio = Condominio::findOrFail($id);
 
-        $data = $form->getFieldValues();
+        $data = $request->request->all();
 
         $condominio->update($data);
 
