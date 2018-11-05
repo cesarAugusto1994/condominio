@@ -20,7 +20,7 @@
                         <div class="text-center">
                             <h2 class="text-uppercase m-t-0 m-b-30">
                                 <a href="index.html" class="text-success">
-                                    <span><img src="{{ asset('dashboard/images/navalha-colorido.png') }}" alt="" height="30"></span>
+                                    <span><img src="#" alt="" height="30"></span>
                                 </a>
                             </h2>
                             <!--<h4 class="text-uppercase font-bold m-b-0">Sign In</h4>-->

@@ -370,4 +370,35 @@
 @section('adminlte_js')
     @stack('js')
     @yield('js')
+
+    <script>
+
+    $('.btnLogout').click(function() {
+
+        swal({
+          title: 'Finalizar Sessão?',
+          text: "Esta sessão será finalizada!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim',
+          cancelButtonText: 'Cancelar'
+          }).then((result) => {
+          if (result.value) {
+
+            document.getElementById('logout-form').submit();
+
+            swal({
+              title: 'Até logo!',
+              text: 'Sua sessão será finalizada.',
+              type: 'success',
+              showConfirmButton: false,
+            })
+          }
+        });
+
+      });
+
+    </script>
 @stop
