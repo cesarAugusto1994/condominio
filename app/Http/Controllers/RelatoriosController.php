@@ -45,8 +45,10 @@ class RelatoriosController extends Controller
 
           $movimentos = $movimentos->get();
 
+          $dataAnterior = $first->format('Y-m-d') . ' 00:00:00';
+
           $movimentosAnteriorDespesa = Movimento::where('condominio_id', $condominio->id)
-          ->where('data_pagamento','<=', $first->format('Y-m-d') . ' 00:00:00')
+          ->where('data_pagamento','<', $dataAnterior)
           ->where('movimento_tipo_id', 2);
           if($request->filled('conta')) {
               $movimentosAnteriorDespesa->where('conta_id', $conta);
@@ -54,7 +56,7 @@ class RelatoriosController extends Controller
           $movimentosAnteriorDespesa = $movimentosAnteriorDespesa->sum('valor');
 
           $movimentosAnteriorReceita = Movimento::where('condominio_id', $condominio->id)
-          ->where('data_pagamento','<=', $first->format('Y-m-d') . ' 00:00:00')
+          ->where('data_pagamento','<', $dataAnterior)
           ->where('movimento_tipo_id', 1);
           if($request->filled('conta')) {
               $movimentosAnteriorReceita->where('conta_id', $conta);
@@ -62,6 +64,8 @@ class RelatoriosController extends Controller
           $movimentosAnteriorReceita = $movimentosAnteriorReceita->sum('valor');
 
           $movimentoAnterior = $movimentosAnteriorReceita - $movimentosAnteriorDespesa;
+
+          #dd($movimentoAnterior);
 
           $dias = $first->diff($last)->days;
 
