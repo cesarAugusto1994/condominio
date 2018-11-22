@@ -369,6 +369,7 @@ class ComposerStaticInit33c733ca468374e6b3fda822e6167a5f
     );
 
     public static $classMap = array (
+        'App\\AppModelsOrcamento' => __DIR__ . '/../..' . '/app/AppModelsOrcamento.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Forms\\CategoriaForm' => __DIR__ . '/../..' . '/app/Forms/CategoriaForm.php',
@@ -380,6 +381,7 @@ class ComposerStaticInit33c733ca468374e6b3fda822e6167a5f
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\BlocosController' => __DIR__ . '/../..' . '/app/Http/Controllers/BlocosController.php',
         'App\\Http\\Controllers\\CategoriasController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoriasController.php',
         'App\\Http\\Controllers\\CondominioController' => __DIR__ . '/../..' . '/app/Http/Controllers/CondominioController.php',
         'App\\Http\\Controllers\\ContaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContaController.php',
@@ -415,6 +417,8 @@ class ComposerStaticInit33c733ca468374e6b3fda822e6167a5f
         'App\\Models\\Financeiro' => __DIR__ . '/../..' . '/app/Models/Financeiro.php',
         'App\\Models\\Movimento\\Documento' => __DIR__ . '/../..' . '/app/Models/Movimento/Documento.php',
         'App\\Models\\Movimento\\Tipo' => __DIR__ . '/../..' . '/app/Models/Movimento/Tipo.php',
+        'App\\Models\\Orcamento' => __DIR__ . '/../..' . '/app/Models/Orcamento.php',
+        'App\\Models\\Orcamento\\Mes' => __DIR__ . '/../..' . '/app/Models/Orcamento/Mes.php',
         'App\\Models\\Pessoa' => __DIR__ . '/../..' . '/app/Models/Pessoa.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

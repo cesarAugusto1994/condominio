@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\AppModelsOrcamento' => $baseDir . '/app/AppModelsOrcamento.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Forms\\CategoriaForm' => $baseDir . '/app/Forms/CategoriaForm.php',
@@ -17,6 +18,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+    'App\\Http\\Controllers\\BlocosController' => $baseDir . '/app/Http/Controllers/BlocosController.php',
     'App\\Http\\Controllers\\CategoriasController' => $baseDir . '/app/Http/Controllers/CategoriasController.php',
     'App\\Http\\Controllers\\CondominioController' => $baseDir . '/app/Http/Controllers/CondominioController.php',
     'App\\Http\\Controllers\\ContaController' => $baseDir . '/app/Http/Controllers/ContaController.php',
@@ -52,6 +54,8 @@ return array(
     'App\\Models\\Financeiro' => $baseDir . '/app/Models/Financeiro.php',
     'App\\Models\\Movimento\\Documento' => $baseDir . '/app/Models/Movimento/Documento.php',
     'App\\Models\\Movimento\\Tipo' => $baseDir . '/app/Models/Movimento/Tipo.php',
+    'App\\Models\\Orcamento' => $baseDir . '/app/Models/Orcamento.php',
+    'App\\Models\\Orcamento\\Mes' => $baseDir . '/app/Models/Orcamento/Mes.php',
     'App\\Models\\Pessoa' => $baseDir . '/app/Models/Pessoa.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

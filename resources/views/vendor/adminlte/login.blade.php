@@ -37,7 +37,7 @@
                                     <div class="form-group m-b-20 {{ $errors->has('login') ? ' has-error' : '' }}">
                                         <div class="col-xs-12">
                                             <label for="emailaddress">{{ trans('adminlte::adminlte.email') }}</label>
-                                            <input class="form-control" name="email" type="email" id="emailaddress" required="" placeholder="" autofocus>
+                                            <input class="form-control" name="email" type="email" id="emailaddress" value="{{old('email')}}" required="" placeholder="" autofocus>
                                         </div>
                                     </div>
 

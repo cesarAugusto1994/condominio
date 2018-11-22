@@ -243,10 +243,19 @@
                   </li>
 
                   <li>
-                      <a href="{{ route('relatorios.index') }}">
-                          <i class="fa fa-file"></i><span> Relatórios </span>
+                      <a href="{{ route('orcamentos.index') }}">
+                          <i class="mdi mdi-currency-usd"></i><span> Orçamentos </span>
                       </a>
                   </li>
+
+                  <li>
+                      <a href="{{ route('relatorios.index') }}">
+                          <i class="mdi mdi-file-excel"></i><span> Relatórios </span>
+                      </a>
+                  </li>
+
+
+
 
                   <!--
 

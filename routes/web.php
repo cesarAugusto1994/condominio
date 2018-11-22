@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function() {
       Route::resource('condominio', 'CondominioController');
 
       Route::resource('relatorios', 'RelatoriosController');
+      Route::resource('orcamentos', 'OrcamentosController');
+      Route::get('orcamentos/create/finish', 'OrcamentosController@finish')->name('orcamento_create_finish');
+      Route::get('orcamentos/{id}/categorias', 'OrcamentosController@categorias')->name('orcamento_categorias');
 
       Route::get('/images/external', 'MovimentosController@images')->name('images');
       Route::post('/movimentos/{id}/pagar', 'MovimentosController@pagar')->name('movimento_pagar');

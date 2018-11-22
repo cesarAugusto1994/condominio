@@ -117,7 +117,7 @@
             <h6 class="m-t-0">Últimas Movimentações</h6>
             <div class="table-responsive">
                 <table class="table table-hover mails m-0 table table-actions-bar">
-                    <thead>
+                    <thead class="thead-light">
                       <tr>
                         <th>Tipo</th>
                         <th>Data</th>
@@ -147,7 +147,7 @@
                       @endphp
 
                       @foreach($movimentos as $movimento)
-                        <tr>
+                        <tr @if(!$movimento->pago && $movimento->data_pagamento < now()) class="table-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dívida Vencida" @endif>
                           @if($movimento->tipo->id == 1)
                               <td><span class="badge badge-success">{{ $movimento->tipo->nome }}</span></td>
                           @else

@@ -102,7 +102,7 @@
 
         $.get(route, function(data) {
 
-            data = JSON.parse(data);
+            //data = JSON.parse(data);
 
             $("#recebimento").html(data.recebimento);
             $("#despesas").html(data.despesas);
@@ -137,6 +137,31 @@
           todayBtn: "linked",
           language: "pt-BR",
           todayHighlight: true
+      });
+
+      $('.input-date-month').datepicker({
+          format: "mm/yyyy",
+          startView: "months",
+          minViewMode: "months",
+          clearBtn: true,
+          language: "pt-BR",
+          multidate: true,
+          multidateSeparator: ", ",
+          todayHighlight: true
+      }).on("show", function(event) {
+
+          var year = $("th.datepicker-switch").eq(1).text();  // there are 3 matches
+
+          $(".month").each(function(index, element) {
+
+            var el = $(element);
+/*
+            var hideMonth = $.grep( datesToDisable, function( n, i ) {
+                              return n.substr(4, 4) == year && n.substr(0, 3) == el.text();
+                            });
+                            */
+         });
+
       });
 
       $('.date').datepicker({

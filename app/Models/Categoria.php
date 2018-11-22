@@ -15,4 +15,9 @@ class Categoria extends Model
     {
         return $this->hasMany('App\Models\Conta\Movimento');
     }
+
+    public function grupo()
+    {
+        return $this->belongsTo('App\Models\Categoria\Grupo');
+    }
 }
