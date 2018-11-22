@@ -16,7 +16,6 @@ class OrcamentosController extends Controller
     public function index()
     {
         $orcamentos = Orcamento::paginate(60);
-
         return view('admin.orcamentos.index',compact('orcamentos'));
     }
 
@@ -66,6 +65,7 @@ class OrcamentosController extends Controller
         }
 
         $categorias = Categoria::all();
+
         return view('admin.orcamentos.finish',compact('categorias','meses', 'mesesString'));
     }
 
@@ -134,7 +134,7 @@ class OrcamentosController extends Controller
 
         }
 
-        return route('orcamentos.index');
+        return redirect()->route('orcamentos.index');
     }
 
     public function categorias($id)
