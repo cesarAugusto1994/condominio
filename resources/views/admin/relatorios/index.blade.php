@@ -236,6 +236,7 @@
 
       $("#sandbox-container").hide();
       $("#sandbox-container2").hide();
+      $("#meses-picker").attr('required');
 
       if(selectRelatorio.val() == 1) {
           $("#sandbox-container").show();
@@ -246,6 +247,9 @@
       } else {
         $("#sandbox-container").hide();
         $("#sandbox-container2").show();
+
+        $("#meses-picker").attr('required');
+
       }
 
       selectRelatorio.change(function() {
@@ -262,6 +266,8 @@
         } else {
           $("#sandbox-container").hide();
           $("#sandbox-container2").show();
+
+          $("#meses-picker").attr('required');
         }
 
       });

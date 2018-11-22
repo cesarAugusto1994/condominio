@@ -130,15 +130,12 @@ class RelatoriosController extends Controller
                         $header[] = $dateA;
 
                         $total += $valor;
-                        //$saldo = $movimentoAnterior+$valor;
 
                         $resultadoFooter[$dateA][] = (float)$total;
 
                         if(isset($saldoDiario[$dateA][$dia])) {
                             //continue;
                         }
-
-                        //$saldoDiario[$dateA][$dia] = (float)$saldo;
 
                     }
 
@@ -212,6 +209,11 @@ class RelatoriosController extends Controller
 
             } elseif($request->get('relatorio') == 2) {
 
+              if(!$request->has('meses')) {
+                  flash('Por favor informe um mês.')->error()->important();
+                  return redirect()->back();
+              }
+
               $meses = [];
               $mesesString = $request->get('meses');
 
@@ -223,22 +225,21 @@ class RelatoriosController extends Controller
 
                     $datetime = \DateTime::createFromFormat('m/Y', $item);
 
+                    if(!$datetime) {
+                      $datetime = now();
+                    }
+
                     $hasOrcamento = Orcamento::wherehas('categorias', function($query) use ($datetime) {
                         $query->whereHas('meses', function($query) use ($datetime) {
                             $query->where('mes',$datetime->format('m/Y'));
                         });
                     })->get();
 
-                    if($hasOrcamento->isNotEmpty()) {
-                        //continue;
-                    }
-
                     $meses[] = $datetime;
                 }
 
               }
 
-              #dd($meses);
 
               if(empty($meses)) {
                   //return redirect()->back();
@@ -264,8 +265,6 @@ class RelatoriosController extends Controller
                           $query->where('mes',$mes->format('m/Y'));
                       })->get()->first();
 
-                      //dd($orcamentoCategoria);
-
                       $saldoMensal = 0;
                       $metaMensal = 0;
 
@@ -275,10 +274,6 @@ class RelatoriosController extends Controller
                         $metaMensal = $orcamentoCategoria->meta;
 
                       }
-
-                      //$inicio = $mes->format('Y-m-01');
-                      //$fim = $mes->format('Y-m-t');
-
 
                       if(!empty($conta)) {
 
@@ -314,7 +309,6 @@ class RelatoriosController extends Controller
 
                       $realizado += ($valorReceitas + $valorDespesas);
 
-                      //$resultado[$grupo->nome][$categoria->nome][$mes->format('Y-m')]['meta'] = $metaMensal;
                       $resultado[$grupo->nome][$categoria->nome][$mes->format('Y-m')] = [
                         'mes' => $mes->format('Y-m'),
                         'saldo' => $saldoMensal,
